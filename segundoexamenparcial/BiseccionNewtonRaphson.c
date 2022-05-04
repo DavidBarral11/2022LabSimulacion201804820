@@ -4,7 +4,7 @@ Fecha:         Tue Apr 26 21:14:53 CEST 2022
 compilador:    gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
 Compilar:      gcc -o BiseccionNewtonRaphson.out BiseccionNewtonRaphson.c -lm
 Librerias:     stdio, stdlib, math
-Resumen:       Ejemplo basico del metodo numerico de NewtonRaphson para x^3-x-1
+Resumen:       Ejemplo se basico del metodo numerico de NewtonRaphson para x^3-x-1
 */
 
 //librerias
