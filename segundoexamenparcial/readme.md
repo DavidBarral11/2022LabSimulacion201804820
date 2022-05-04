@@ -1,4 +1,4 @@
-# Problemas del segundo parcial (201904140)
+# Problemas del segundo parcial David Barral (201804820)
 
 Dentro de esta carpeta se documentará y mostrará el código de los problemas del segundo examen parcial de Laboratorio de simulación.
 
