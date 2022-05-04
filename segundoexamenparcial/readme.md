@@ -7,7 +7,8 @@ Dentro de esta carpeta se documentará y mostrará el código de los problemas d
 ![Problema1](Imagenes/Img1.jpg)
 
 **Diagrama de flujo**
-![Problema1](Imagenes/MinCuadrados.jpeg)
+![Problema1](Imagenes/DF1.png)
+![Problema1](Imagenes/DF2.png)
 
 **Variables de entrada y salida:**
 - x   = Años de producción
@@ -52,7 +53,7 @@ Dentro de esta carpeta se documentará y mostrará el código de los problemas d
 ![Problema1](Imagenes/Img2.jpg)
 
 **Diagrama de flujo**
-![Problema1](Imagenes/NewRap.jpeg)
+![Problema1](Imagenes/DF3.png)
 **Variables de entrada y salida:**
 - x0   = Estimación inicial de la raíz (variable de entrada)
 - e    = Error tolerable en la obtención de la raíz (variable de entrada)
