@@ -39,7 +39,7 @@ Dentro de esta carpeta se documentará y mostrará el código de los problemas d
 - Gráfica inicial de los datos 
 - ![Problema1](Imagenes/Grafica1.jpg)
 - Gráfica de y = 28.227352x + 602.714478 
-- ![Problema1](Imagenes/Curva1.1.jpeg)
+- ![Problema1](Imagenes/Curva1b.jpeg)
 - La ganancia aproximadas utilizando el método de mínimos cuadrados es de Q884,988.00 mientras la estimación del gobierno es de Q920,100.00
 
 **Compilación y ejecución:**
