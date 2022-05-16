@@ -8,116 +8,83 @@ Librerías:      stdio, math
 Resumen:        Se propone una solución al problema 1 del examen final de simulación donde se realiza un programa que simule el despeje de un cohete, definiendo las respectivas ecuaciones diferenciales.
 */
 
-//librerias
+//Librerias
 #include <stdio.h>
 #include <math.h>
 
-//Definimos constantes
-#define G=0.00000000006693;
-#define RT=6378000;
-#define MT=5973600000000000000000000;
-#define R=287.06;
-#define L=0.0065;
-#define g0=9.81;
-#define T0=288.15;
-#define P0=101325;
-float t=0;
-float y=0;
-float cohete[6];
+//Variables
+float G=6.693E-11;
+float Rt=6.378E6;
+float Mt=5.9736E24;
+float R= 287.06;
+float L= 0.0065;
+float g0= 9.81;
+float T0= 288.15;
+float P0= 101325.0;
 
-//Definimos características de los cohetes que guardamos en vectores
-//Nombre[6]={E0,TSFC,CD,A,m0,mf0}
-float AhMun[6]={30000000,0.0003248,61.27,201.06,110000,1500000};
-float AhauKin[6]={2700000,0.0002248,61.27,201.06,110000,1500000};
-float Chac[6]={25000000,0.0002248,70.25,215,180000,2100000};
+//Cohete 1
+float E01= 3E7;
+float TSFC1=3.248E-4;
+float CD1=61.27;
+float A1=201.06;
+float M01=1.1E5;
+float MF01=1.5E6;
 
-//Prototipado de las funciones:
+//Segundo Cohete
+float E02= 2.7E7;
+float TSFC2=2.248E-4;
+float CD2=61.27;
+float A2=201.06;
+float M02=1.1E5;
+float MF02=1.5E6;
 
-float mc(float t);
-float Fa(float y, float t);
-float gravedad(float y);
-float f(float t, float y);
-float heun(int n);
+//Cohete 3
+float E03= 2.5E7;
+float TSFC3=2.248E-4;
+float CD3=70.25;
+float A3=215.0;
+float M03=1.8E5;
+float MF03=2.1E6;
 
-void main(){
-    //Para el primer cohete
-    cohete[6]=AhMun[6];
-    //calculamos el tiempo en el que se quedará sin combustible
-    //este tiempo será nuestro punto máximo del rango
-    float n=cohete[5]/(0.1*cohete[1]*cohete[0]);
-    printf("Por el método de heun: \n",heun(n));
-    //Para el segundo cohete
-    cohete[6]=AhauKin[6];
-    //calculamos el tiempo en el que se quedará sin combustible
-    //este tiempo será nuestro punto máximo del rango
-    float n=cohete[5]/(0.1*cohete[1]*cohete[0]);
-    printf("Por el método de heun: \n",heun(n));
-    //Para el tercer cohete
-    cohete[6]=Chac[6];
-    //calculamos el tiempo en el que se quedará sin combustible
-    //este tiempo será nuestro punto máximo del rango
-    float n=cohete[5]/(0.1*cohete[1]*cohete[0]);
-    printf("Por el método de heun: \n",heun(n));
+//Para la variable dependiente
+float y;
+
+//Funciones
+float fatm(float datos[]);
+float densidad();
+float gravedad();
+float fa(float y);
+float absoluto(float x);
+
+
+//Función de Partición
+int main() {
+    //Vectores útiles
+    float AhMun[]  ={E01,TSFC1,CD1,A1,M01,MF01};
+    float AhauKin[]={E02,TSFC2,CD2,A2,M02,MF02};
+    float Chac[]   ={E03,TSFC3,CD3,A3,M03,MF03};
+    return 0;
 }
 
-float mc(float t)
-{
-    /*  esta función nos permite encontrar la masa en función
-        del tiempo como la masa del cohete es fija, solo cambia 
-        la masa del combustible a razón de -TSFC*E0*t, es decir
-        la masa del combustible después de un tiempo t será
-        mf(t)=mf(0)-TSFC*E0*t, por lo tanto la masa total de la nave
-        será: mc(t)=m0+mf(0)-TSFC*E0*t
-    */
-   int mc = cohete[4]+cohete[5]-cohete[1]*cohete[0]*t;
-   return mc;
+//Para la densidad
+float densidad() {
+    float rho;
+    rho = (P0/(R*T0))*pow((1-((L*y)/T0)),(g0/(R*L)));
+    return rho;
 }
 
-float Fa(float y, float t)
-{
-    /*  Función que calcula Fa en función de y y t vel=y/t
-        aquí he unificado las ecuaciones de fricción de la atmósfera 
-        y la densidad del aire.
-    */
-    float Fa=0.5*(P0/(R*T0))*(pow((1-(L*y)/T0),(g0/(R*L))))*(cohete[2]*cohete[3]*(y/t)*sqrt(pow(2*y/t,2)));
-    return Fa;
+float gravedad(){
+    float g0;
+    g0 = (G*Mt)/(pow((Rt+y),2));
 }
 
-float gravedad(float y)
-{
-    //Función que calcula la gravedad en función de la altura
-    float g=G*MT/(pow((RT+y),2));
-    return g;
+float fatm(float datos[]){
+    float f0;
+    f0 = densidad()*datos[2]*datos[3];
 }
 
-/*  Segunda ley de Newton aplicada al movimiento del cohete
-    esta es nuestra función f(y,t), solo debemos pasar dividiendo
-    al otro lado la masa...
-*/
-float f(float t, float y){
-    float rep=0;
-    rep = (cohete[0]-Fa(y,t))/mc(t)-gravedad(y);
-    return rep;
-}
-/*  metodo numerico de heun
-    h nos lo dá el problema al inicio h=0.1
-*/
-float heun(int n){
-    FILE *pf = fopen("altura","wt");
-    float w, t;
-    t=0;
-    w=0.63;
-    float h=0.01;
-    for (int i = 0; i < n; i++)
-    {
-        //incrementa el valor de w valuando con el tiempo actual y el valor de w actual
-        w+=(h/4)*(f(t,w)+3*f(t+2*h/3,w+(2*h/3)*f(t,w)));
-        //actualizamos el tiempo
-        t+=0.01;
-        printf("\n La altura en %f segundos es de: %f \n",t,w);
-        fprintf(pf,"%.2f\t%.2f\n",t,w);
-    }
-    fclose(pf);
-    system("gnuplot grafica.gp");
-    return w;
+float absoluto(float x){
+    if (x<0)
+        x = -x;
+    return x;
 }
