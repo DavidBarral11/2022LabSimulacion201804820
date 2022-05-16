@@ -2,7 +2,7 @@
 Autor:          Paula Yuc
 Carnet:         201804563
 compilador:     gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
-compilar:       gcc -o problema1.out problema1.c 
+compilar:       gcc -o Problema1PaulaYuc.out Problema1PaulaYuc.c -lm
 Fecha:          16 de mayo de 2022
 Librerías:      stdio, stdlib
 Resumen:       En este problema definimos y creamos una simulación para el despeje de un cohete.
@@ -12,7 +12,7 @@ Resumen:       En este problema definimos y creamos una simulación para el desp
 #include <stdio.h>
 #include <math.h>
 
-//Primero se definen las variables a usar en en código
+//Variables
 float G=6.693E-11;
 float Rt=6.378E6;
 float Mt=5.9736E24;
@@ -22,7 +22,7 @@ float g0= 9.81;
 float T0= 288.15;
 float P0= 101325.0;
 
-//Datos del primer cohete
+//Cohete 1
 float E01= 3E7;
 float TSFC1=3.248E-4;
 float CD1=61.27;
@@ -38,7 +38,7 @@ float A2=201.06;
 float M02=1.1E5;
 float MF02=1.5E6;
 
-//Datos del tercer cohete
+//Cohete 2
 float E03= 2.5E7;
 float TSFC3=2.248E-4;
 float CD3=70.25;
@@ -46,10 +46,10 @@ float A3=215.0;
 float M03=1.8E5;
 float MF03=2.1E6;
 
-//Se define la variable y
+//Variable y
 float y;
 
-//Se prototipa las funciones a utilizar
+//Funciones
 float fatm(float datos[]);
 float densidad();
 float gravedad();
@@ -59,14 +59,14 @@ float absoluto(float x);
 
 //Función principal
 int main() {
-    //Se utlizan vectores para almacenar la información de los cohetes
+    //Vectores a utilizar
     float AhMun[]  ={E01,TSFC1,CD1,A1,M01,MF01};
     float AhauKin[]={E02,TSFC2,CD2,A2,M02,MF02};
     float Chac[]   ={E03,TSFC3,CD3,A3,M03,MF03};
     return 0;
 }
 
-//Función de densidad
+//Para la densidad
 float densidad() {
     float rho;
     rho = (P0/(R*T0))*pow((1-((L*y)/T0)),(g0/(R*L)));
